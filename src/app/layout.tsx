@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+"use client";
 import "../styles/globals.scss";
-
-export const metadata: Metadata = {
-  title: "Piggy",
-};
+import TanstackProvider from "../providers/TanstackProvider";
 
 export default function RootLayout({
   children,
@@ -12,7 +9,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <TanstackProvider>
+          <div>{children}</div>
+        </TanstackProvider>
+      </body>
     </html>
   );
 }
