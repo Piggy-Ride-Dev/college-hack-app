@@ -20,13 +20,13 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Cache Node Modules
-        uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-modules-
+      # - name: Cache Node Modules
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: "**/node_modules"
+      #     key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-modules-
 
       - name: Build Next.js Application
         run: |
