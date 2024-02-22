@@ -7,6 +7,9 @@ import { Layout, Select, Button  } from 'antd';
 
 const { Header, Content, Footer } = Layout;
 
+//TODO - Map p/ pegar todos os college
+//TODO - Filter para tirar os repetidos
+
 const App: React.FC = () => {
   return (
     <Layout className='layout-container'>
@@ -21,6 +24,7 @@ const App: React.FC = () => {
 						<div className='input'>
 							<span>Institution</span>
 								<Select
+                size='large'
 								options={[
 									{ value: '1', label: '1' },
 									{ value: '2', label: '2' },
@@ -31,6 +35,7 @@ const App: React.FC = () => {
 						<div className='input'>
 							<span>Program</span>
 							<Select
+                size='large'
 								options={[
 									{ value: '1', label: '1' },
 									{ value: '2', label: '2' },
@@ -39,7 +44,7 @@ const App: React.FC = () => {
 							/>
 						</div>
           </div>
-          <Button type="primary" block>Next</Button>
+          <Button size='large' type="primary" block>Next</Button>
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
