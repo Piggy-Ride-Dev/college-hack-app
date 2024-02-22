@@ -1,33 +1,20 @@
 "use client";
 import React from 'react';
-// import logo from "../src/logo.svg";
+import logo from "../../src/logo.svg";
+import Image from 'next/image';
 import "./styles.scss";
-import { Breadcrumb, Layout, Menu, theme, Image, Select, Button  } from 'antd';
+import { Layout, Select, Button  } from 'antd';
 
 const { Header, Content, Footer } = Layout;
 
-const items = new Array(3).fill(null).map((_, index) => ({
-  key: String(index + 1),
-  label: `nav ${index + 1}`,
-}));
-
 const App: React.FC = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
   return (
     <Layout className='layout-container'>
       <Header className='header'>
-        {/* <Image src={logo}/> */}
+        <Image src={logo} alt="Logo" />
       </Header>
       <Content>
-        <div className='container'
-          style={{
-            // background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
+        <div className='container'>
         	<div className='content'>
 						<h1>Let's Get Started!</h1>
 						<p>First, tell me your Institution and Program</p>
