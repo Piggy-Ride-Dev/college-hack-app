@@ -1,0 +1,37 @@
+.container {
+    padding: 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.content {
+    padding: 24px 0;
+    // min-height: 380px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    h1 {
+        // font-family: 'Inter', sans-serif;
+        // font-weight: 600;
+        font-size: 28px;
+    }
+
+    p {
+        // font-family: 'Poppins', sans-serif;
+        // font-weight: 400;
+        font-size: 16px;
+    }
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}

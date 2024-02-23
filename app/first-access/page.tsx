@@ -24,11 +24,7 @@ const App: React.FC = () => {
   console.log(data);
 
   return (
-    <Layout className='layout-container'>
-      <Header className='header'>
-        <Image src={logo} alt="Logo" />
-      </Header>
-      <Content>
+    // <div className='layout-container'>
         <div className='container'>
         	<div className='content'>
 						<h1>Let's Get Started!</h1>
@@ -58,11 +54,7 @@ const App: React.FC = () => {
           </div>
           <Button size='large' type="primary" block>Next</Button>
         </div>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        College Hack ©{new Date().getFullYear()} Created by Piggy
-      </Footer>
-    </Layout>
+    // </div>
   );
 };
 
