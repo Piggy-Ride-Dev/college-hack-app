@@ -4,13 +4,25 @@ import logo from "../../src/logo.svg";
 import Image from 'next/image';
 import "./styles.scss";
 import { Layout, Select, Button  } from 'antd';
+import { useQuery } from 'react-query';
 
 const { Header, Content, Footer } = Layout;
+
+const fetchData = async () => {
+  const response = await fetch('https://college-hack-api.azurewebsites.net/institution');
+  if (!response.ok) {
+    throw new Error('Erro ao buscar os dados');
+  }
+  return response.json();
+};
 
 //TODO - Map p/ pegar todos os college
 //TODO - Filter para tirar os repetidos
 
 const App: React.FC = () => {
+  const { data, error, isLoading } = useQuery('institutionData', fetchData);
+  console.log(data);
+
   return (
     <Layout className='layout-container'>
       <Header className='header'>
