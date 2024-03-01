@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
+"use client";
 
 export default function Home(){
-  return redirect('/semesters');
+  return (
+    <a href="https://college-hack-api.azurewebsites.net/auth/google">Login</a>
+  );
 }
