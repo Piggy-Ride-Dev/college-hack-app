@@ -1,7 +1,11 @@
 import { getApiURL } from "@/utils/environment";
 import axios from "axios";
 
-const token = localStorage.getItem('token');
+let token = null;
+
+if (typeof localStorage !== 'undefined') {
+  token = localStorage.getItem('token');
+}
 
 export const api = axios.create({
   baseURL: getApiURL(),
