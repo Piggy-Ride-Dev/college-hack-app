@@ -1,7 +1,7 @@
 "use client";
 import { useGetAllInstitutions } from '@/hooks/useInstitution';
 import { Button, Select } from 'antd';
-import "./styles.scss";
+import styles from "./styles.module.scss";
 
 //TODO - Map p/ pegar todos os college
 //TODO - Filter para tirar os repetidos
@@ -11,11 +11,11 @@ export default function firstAccess() {
   console.log(institutions);
 
   return (
-    <div className='container'>
-      <div className='content'>
+    <div className={styles.container}>
+      <div className={styles.content}>
         <h1>Let's Get Started!</h1>
         <p>First, tell me your Institution and Program</p>
-        <div className='input'>
+        <div className={styles.input}>
           <span>Institution</span>
             <Select
             size='large'
@@ -26,7 +26,7 @@ export default function firstAccess() {
             ]}
             />
         </div>
-        <div className='input'>
+        <div className={styles.input}>
           <span>Program</span>
           <Select
             size='large'
