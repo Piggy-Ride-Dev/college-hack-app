@@ -3,11 +3,45 @@ import { useGetAllInstitutions } from '@/hooks/useInstitution';
 import { Button, Select } from 'antd';
 import styles from "./styles.module.scss";
 
-//TODO - Map p/ pegar todos os college
-//TODO - Filter para tirar os repetidos
+interface College {
+  _id: string;
+  name: string;
+}
+
+interface Program {
+  code: string;
+  collegeID: College;
+  name: string;
+  _id: string;
+}
 
 export default function firstAccess() {
   const { data: institutions } = useGetAllInstitutions();
+
+  function getUniqueColleges(colleges: any[]): College[] {
+    const uniqueCollegesMap: Map<string, College> = new Map();
+  
+    colleges?.forEach(college => {
+      const collegeID = college.collegeID._id;
+      if (!uniqueCollegesMap.has(collegeID)) {
+        uniqueCollegesMap.set(collegeID, college.collegeID);
+      }
+    });
+  
+    return Array.from(uniqueCollegesMap.values());
+  }
+  
+  const uniqueColleges: College[] = getUniqueColleges(institutions);
+  
+  const options = uniqueColleges.map(college => ({
+    label: college.name,
+    value: college._id,
+  }));
+
+  const programOptions = institutions?.map((item: Program) => ({
+    label: item.name,
+    value: item._id
+  }));
 
   return (
     <div className={styles.container}>
@@ -18,22 +52,14 @@ export default function firstAccess() {
           <span>Institution</span>
             <Select
             size='large'
-            options={[
-              { value: '1', label: '1' },
-              { value: '2', label: '2' },
-              { value: '3', label: '3' },
-            ]}
+            options={options}
             />
         </div>
         <div className={styles.input}>
           <span>Program</span>
           <Select
             size='large'
-            options={[
-              { value: '1', label: '1' },
-              { value: '2', label: '2' },
-              { value: '3', label: '3' },
-            ]}
+            options={programOptions}
           />
         </div>
       </div>
