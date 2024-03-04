@@ -1,3 +1,7 @@
+"use client";
+
 export default function Home(){
-  return <h1>Home page teste</h1>
+  return (
+    <a href="https://college-hack-api.azurewebsites.net/auth/google">Login</a>
+  );
 }
