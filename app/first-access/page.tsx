@@ -8,7 +8,6 @@ import styles from "./styles.module.scss";
 
 export default function firstAccess() {
   const { data: institutions } = useGetAllInstitutions();
-  console.log(institutions);
 
   return (
     <div className={styles.container}>
