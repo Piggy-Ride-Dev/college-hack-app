@@ -1,4 +1,4 @@
-import { getApiURL } from "@/utils/environment";
+import { getApiURL } from "@/api/environment";
 import axios from "axios";
 
 let token = null;

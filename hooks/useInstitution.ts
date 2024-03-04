@@ -1,4 +1,4 @@
-import { getAllInstitutionsClient } from "@/api/client";
+import { getAllInstitutionsClient } from "@/api/institutionsClient";
 import { useQuery } from "react-query";
 
 export const useGetAllInstitutions = () => {
