@@ -1,7 +1,11 @@
 "use client";
 
-export default function Home(){
+import GoogleLogin from "@/components/GoogleLogin/GoogleLogin";
+
+export default function Home() {
   return (
-    <a href="https://college-hack-api.azurewebsites.net/auth/google">Login</a>
+    <main className="flex flex-col items-center justify-center p-6">
+      <GoogleLogin />
+    </main>
   );
 }
