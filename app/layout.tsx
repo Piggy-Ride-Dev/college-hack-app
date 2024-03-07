@@ -1,16 +1,15 @@
-"use client";
-import "../styles/globals.scss";
-import { ReactQueryDevtools } from 'react-query/devtools';
-import {
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
-import { Footer, Header } from "antd/es/layout/layout";
-import logo from "../src/logo.svg";
-import Image from 'next/image';
-import styles from "./styles.module.scss";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import FooterComponent from "@/components/FooterComponent/FooterComponent";
+import HeaderComponent from "@/components/HeaderComponent/HeaderComponent";
 
-const queryClient = new QueryClient();
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "College Hack",
+  description: "App created by Piggy Ride",
+};
 
 export default function RootLayout({
   children,
@@ -19,17 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={styles.body}>
-        <QueryClientProvider client={queryClient}>
-          <Header className={styles.header}>
-            <Image src={logo} alt="Logo" />
-          </Header>
-          <div className={styles.main}>{children}</div>
-          <Footer className={styles.footer}>
-            <span>College Hack ©2024 Created by Piggy</span>
-          </Footer>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+      <body className={inter.className}>
+        <HeaderComponent />
+        {children}
+        <FooterComponent />
       </body>
     </html>
   );
