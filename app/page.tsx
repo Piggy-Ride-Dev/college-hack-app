@@ -1,6 +1,4 @@
-"use client";
-
-import GoogleLogin from "@/components/GoogleLogin/GoogleLogin";
+import GoogleLogin from "@/components/GoogleLogin";
 
 export default function Home() {
   return (

@@ -1,9 +1,10 @@
-import FooterComponent from "@/components/FooterComponent/FooterComponent";
-import HeaderComponent from "@/components/HeaderComponent/HeaderComponent";
-import ReactQueryClientProvider from "@/components/QueryProvider/ReactQueryClientProvider";
+import FooterComponent from "@/components/FooterComponent";
+import HeaderComponent from "@/components/HeaderComponent";
+import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +22,11 @@ export default function RootLayout({
     <ReactQueryClientProvider>
       <html lang="en">
         <body className={inter.className}>
-          <HeaderComponent />
-          {children}
-          <FooterComponent />
+          <AntdRegistry>
+            <HeaderComponent />
+            {children}
+            <FooterComponent />
+          </AntdRegistry>
         </body>
       </html>
     </ReactQueryClientProvider>
