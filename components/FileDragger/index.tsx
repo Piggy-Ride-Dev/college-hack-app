@@ -28,18 +28,16 @@ const props: UploadProps = {
 };
 
 const FileDragger: React.FC = () => (
-  <div>
-    <label htmlFor="documents">Documents</label>
+  <div className="flex flex-col">
+    <label htmlFor="documents" className="text-sm">
+      Documents
+    </label>
     <Dragger {...props}>
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
       <p className="ant-upload-text">
         Click or drag file to this area to upload
-      </p>
-      <p className="ant-upload-hint">
-        Support for a single or bulk upload. Strictly prohibited from uploading
-        company data or other banned files.
       </p>
     </Dragger>
   </div>
