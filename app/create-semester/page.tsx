@@ -1,8 +1,6 @@
 "use client";
 import FileDragger from "@/components/FileDragger";
-import SemesterStartDatePicker from "@/components/SemesterStartDatePicker";
-import { Button, DatePicker, Form, FormProps, Select, Space } from "antd";
-import { useState } from "react";
+import { Button, DatePicker, Form, Select } from "antd";
 import moment from "moment";
 
 export interface TermProps {
