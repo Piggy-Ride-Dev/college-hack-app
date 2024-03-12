@@ -3,10 +3,11 @@ import FileDragger from "@/components/FileDragger";
 import SemesterStartDatePicker from "@/components/SemesterStartDatePicker";
 import { Button, DatePicker, Form, FormProps, Select, Space } from "antd";
 import { useState } from "react";
+import moment from "moment";
 
 export interface TermProps {
   term: string;
-  start: Date;
+  start: moment.Moment;
   files: string[];
 }
 
