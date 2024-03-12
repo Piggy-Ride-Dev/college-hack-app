@@ -15,7 +15,7 @@ export default function createSemester() {
   const [form] = Form.useForm();
   const { Item } = Form;
 
-  const onSubmit = (data: TermProps) => {
+  const onFinish = (data: TermProps) => {
     console.log(data);
     const { term, files } = data;
 
@@ -37,7 +37,7 @@ export default function createSemester() {
     <main>
       <div className="flex w-full max-w-screen-lg flex-col gap-6 self-center p-6">
         <h1 className="text-2xl font-bold">Creating a semester</h1>
-        <Form form={form} layout="vertical" onFinish={onSubmit}>
+        <Form form={form} layout="vertical" onFinish={onFinish}>
           <Item name="term" label={"Semester"}>
             <Select
               placeholder=""
