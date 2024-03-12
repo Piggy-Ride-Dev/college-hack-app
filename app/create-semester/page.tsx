@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export interface TermProps {
   term: string;
-  date?: Date;
+  start: Date;
   files: string[];
 }
 
@@ -15,50 +15,31 @@ export default function createSemester() {
   const [form] = Form.useForm();
   const { Item } = Form;
 
-  const [termData, setTermData] = useState<TermProps>({
-    term: "",
-    files: [],
-  });
+  const onSubmit = (data: TermProps) => {
+    console.log(data);
+    const { term, files } = data;
 
-  const handleChange = (value: string) => {
-    console.log(value);
-    form.setFieldsValue({ ...termData, term: value });
-  };
+    const startDate = new Date(
+      data["start"].format("YYYY-MM-DD HH:mm:ss"),
+    ).toISOString();
 
-  // function handleSubmit(values: any) {
-  //   console.log(`values: ${values}`);
-  // }
-
-  const onSubmit = (data: any) => {
-    const values = {
-      semester: data["semester"],
-      startDate: new Date(
-        data["startDate"].format("YYYY-MM-DD HH:mm:ss"),
-      ).toISOString(),
+    const termData = {
+      term,
+      start: startDate,
+      files,
     };
-
-    console.log(values);
   };
 
   return (
     <main>
       <div className="flex w-full max-w-screen-lg flex-col gap-6 self-center p-6">
         <h1 className="text-2xl font-bold">Creating a semester</h1>
-        <Form
-          className="flex flex-col gap-6"
-          form={form}
-          layout="vertical"
-          onFinish={onSubmit}
-        >
-          <Item name="semester" label={"Semester"} className="flex flex-col">
-            {/* <label htmlFor="new-semester" className="text-sm">
-              Semester
-            </label> */}
+        <Form form={form} layout="vertical" onFinish={onSubmit}>
+          <Item name="term" label={"Semester"}>
             <Select
               placeholder=""
               id="semester"
               variant="filled"
-              // onChange={handleChange}
               options={availableTerms.map((term) => ({
                 label: term,
                 value: term,
@@ -66,21 +47,8 @@ export default function createSemester() {
             />
           </Item>
 
-          {/* <SemesterStartDatePicker
-            termData={termData}
-            setTermData={setTermData}
-          /> */}
-
-          <Item
-            name="startDate"
-            label={"Starting Date"}
-            className="flex flex-col"
-          >
-            {/* <label htmlFor="semester-date" className="text-sm ">
-              Starting Date
-            </label> */}
+          <Item name="start" label={"Starting Date"}>
             <DatePicker
-              // onChange={onChange}
               id="semester-date"
               className="w-full"
               variant="filled"
@@ -91,7 +59,7 @@ export default function createSemester() {
 
           <Item name="button">
             <Button
-              className="mt-6 text-[#474747]"
+              className="mt-6"
               size="large"
               type="primary"
               htmlType="submit"
