@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ConfigProvider } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,15 +21,31 @@ export default function RootLayout({
 }>) {
   return (
     <ReactQueryClientProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <AntdRegistry>
-            <HeaderComponent />
-            {children}
-            <FooterComponent />
-          </AntdRegistry>
-        </body>
-      </html>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#FDC044",
+            colorText: "#474747",
+            borderRadius: 2,
+          },
+          components: {
+            Button: {
+              defaultColor: "#474747",
+              algorithm: true,
+            },
+          },
+        }}
+      >
+        <html lang="en">
+          <body className={inter.className}>
+            <AntdRegistry>
+              <HeaderComponent />
+              {children}
+              <FooterComponent />
+            </AntdRegistry>
+          </body>
+        </html>
+      </ConfigProvider>
     </ReactQueryClientProvider>
   );
 }

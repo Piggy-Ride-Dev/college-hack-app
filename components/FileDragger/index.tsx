@@ -39,6 +39,10 @@ const FileDragger: React.FC = () => (
       <p className="ant-upload-text">
         Click or drag file to this area to upload
       </p>
+      <p className="ant-upload-hint">File extensions accepted: </p>
+      <p className=" ant-upload-hint font-bold">
+        .xlsx, .pdf, .docx <span className="font-normal">and</span> .doc
+      </p>
     </Dragger>
   </div>
 );
