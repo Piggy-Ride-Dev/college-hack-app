@@ -16,7 +16,6 @@ export default function createSemester() {
   const { Item } = Form;
 
   const onFinish = (data: TermProps) => {
-    console.log(data);
     const { term, files } = data;
 
     const startDate = format(
