@@ -1,11 +1,12 @@
 "use client";
+import { createTerm } from "@/api/termClient";
 import FileDragger from "@/components/FileDragger";
 import { Button, DatePicker, Form, Select } from "antd";
-import moment from "moment";
+import { format } from "date-fns";
 
 export interface TermProps {
   term: string;
-  start: moment.Moment;
+  start: string;
   files: string[];
 }
 
@@ -18,15 +19,18 @@ export default function createSemester() {
     console.log(data);
     const { term, files } = data;
 
-    const startDate = new Date(
-      data["start"].format("YYYY-MM-DD HH:mm:ss"),
-    ).toISOString();
+    const startDate = format(
+      new Date(data["start"]),
+      "yyyy-MM-dd'T'HH:mm:ssxxx",
+    );
 
     const termData = {
       term,
       start: startDate,
       files,
     };
+
+    createTerm(termData);
   };
 
   return (
