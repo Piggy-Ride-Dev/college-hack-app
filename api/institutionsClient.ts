@@ -5,5 +5,5 @@ export const getAllInstitutionsClient = async () => {
 };
 
 export const createTerm = async () => {
-  return (await api.post("/semesters")).data;
+  return await api.post("/semesters", { ...data });
 };

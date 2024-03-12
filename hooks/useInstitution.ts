@@ -11,7 +11,7 @@ export const useGetAllInstitutions = () => {
   );
 };
 
-export const patchClientMutation = useMutation(
+export const createTermMutation = useMutation(
   async (data: any) => createTerm(data),
   {
     onSuccess: () => {
