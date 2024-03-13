@@ -1,8 +1,10 @@
 "use client";
 import { createTerm } from "@/api/termClient";
 import FileDragger from "@/components/FileDragger";
+import { createTermMutation } from "@/hooks/useTerm";
 import { Button, DatePicker, Form, Select } from "antd";
 import { format } from "date-fns";
+import { useMutation, useQueryClient } from "react-query";
 
 export interface TermProps {
   term: string;
@@ -14,6 +16,17 @@ export default function createSemester() {
   const availableTerms = ["Summer", "Fall", "Winter"];
   const [form] = Form.useForm();
   const { Item } = Form;
+
+  const createTermMutation = useMutation(createTerm, {
+    onSuccess: () => {
+      console.log("Sucesso!");
+    },
+    onError: (error: any) => {
+      console.log(
+        `Um erro aconteceu. Por favor, tente novamente. Erro: ${error.response.data.message}`,
+      );
+    },
+  });
 
   const onFinish = (data: TermProps) => {
     const { term, files } = data;
@@ -29,7 +42,8 @@ export default function createSemester() {
       files,
     };
 
-    createTerm(termData);
+    const res = createTermMutation.mutate(termData);
+    console.log(res);
   };
 
   return (

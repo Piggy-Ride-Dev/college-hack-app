@@ -41,7 +41,7 @@ const FileDragger: React.FC = () => (
       </p>
       <p className="ant-upload-hint">File extensions accepted: </p>
       <p className=" ant-upload-hint font-bold">
-        .xlsx, .pdf, .docx <span className="font-normal">and</span> .doc
+        .doc, .docx, .pdf, <span className="font-normal">and</span> .xlsx
       </p>
     </Dragger>
   </div>
