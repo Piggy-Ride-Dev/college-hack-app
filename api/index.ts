@@ -1,5 +1,11 @@
 import axios from "axios";
 
+export type APIResponse<T> = {
+  status: number;
+  message: string;
+  data: T;
+};
+
 let token = null;
 
 if (typeof localStorage !== "undefined") {

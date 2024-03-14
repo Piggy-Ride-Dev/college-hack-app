@@ -1,10 +1,26 @@
-import { TermProps } from "@/app/create-semester/page";
-import { api } from ".";
+import { APIResponse, api } from ".";
 
-export const createTerm = async (data: TermProps) => {
-  return await api.post("/semesters", { ...data });
+type Semester = {
+  courses: any[];
+  endDate: string;
+  season: string;
+  startDate: string;
+  userID: string;
+  __v: number;
+  _id: string;
 };
 
-export const uploadTermDocs = async (data: TermProps, id: string) => {
-  return await api.post(`/semesters/${id}/upload-files`, { ...data });
+type SemesterResponse = APIResponse<Semester>;
+
+export const createSemesterData = async ({ season, startDate }: any) => {
+  return (await api.post<SemesterResponse>("/semester", { season, startDate }))
+    .data;
+};
+
+export const uploadSemesterDocs = async ({ id, formData }: any) => {
+  return await api.post(`/semester/${id}/upload-files`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
