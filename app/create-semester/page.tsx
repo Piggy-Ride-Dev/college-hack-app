@@ -41,11 +41,11 @@ export default function createSemester() {
   const { Item } = Form;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fileList, setFileList] = useState<any[]>([]);
 
   const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
+    const files = Array.isArray(e) ? e : e?.fileList;
+    setFileList(files);
 
     const fileList = e?.fileList;
 
@@ -132,6 +132,8 @@ export default function createSemester() {
 
   const onFinish = (values: TermProps) => {
     executeMutations(values);
+
+    // redirect to ...
   };
 
   const onClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -214,7 +216,11 @@ export default function createSemester() {
               htmlType="submit"
               block
               loading={loading}
-              // disabled={true}
+              disabled={
+                !form.getFieldValue("season") ||
+                !form.getFieldValue("startDate") ||
+                fileList.some((file) => file.size / 1024 / 1024 > 6)
+              }
             >
               Next
             </Button>
