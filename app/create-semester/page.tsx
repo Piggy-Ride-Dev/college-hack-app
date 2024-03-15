@@ -13,7 +13,7 @@ import {
 import Dragger from "antd/es/upload/Dragger";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 export interface TermProps {
@@ -39,10 +39,10 @@ interface FileInfo {
 export default function createSemester() {
   const availableSeasons = ["Summer", "Fall", "Winter"];
   const [form] = Form.useForm();
-  const { Item } = Form;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fileList, setFileList] = useState<any[]>([]);
+  const [isFormTouched, setIsFormTouched] = useState(false);
   const { push } = useRouter();
 
   const props: UploadProps = {
@@ -141,6 +141,10 @@ export default function createSemester() {
     setError("");
   };
 
+  const handleValuesChange = () => {
+    setIsFormTouched(form.isFieldsTouched());
+  };
+
   return (
     <main>
       <div className="flex w-full max-w-screen-lg flex-col gap-6 self-center p-6">
@@ -154,62 +158,63 @@ export default function createSemester() {
             onClose={onClose}
           />
         )}
-        <Form form={form} layout="vertical" onFinish={onFinish}>
-          <Item
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={onFinish}
+          onValuesChange={handleValuesChange}
+        >
+          <Form.Item
             name="season"
             label="Semester"
             rules={[{ required: true, message: "Please select a season." }]}
           >
             <Select
-              placeholder=""
-              id="semester"
               variant="filled"
               options={availableSeasons.map((season) => ({
                 label: season,
                 value: season,
               }))}
             />
-          </Item>
+          </Form.Item>
 
-          <Item
+          <Form.Item
             name="startDate"
             label="Starting Date"
             rules={[{ required: true, message: "Please select a date." }]}
           >
-            <DatePicker
-              id="semester-date"
-              className="w-full"
-              variant="filled"
-            />
-          </Item>
+            <DatePicker className="w-full" variant="filled" />
+          </Form.Item>
 
-          <Item
-            name="files"
-            label="Documents"
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
-            rules={[
-              {
-                required: true,
-                message: "Please select at least one document.",
-              },
-            ]}
-          >
-            <Dragger {...props}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag files to this area to upload
-              </p>
-              <p className="ant-upload-hint">
-                Only <span className="font-bold">.doc, .docx, .pdf</span>, and{" "}
-                <span className="font-bold">.xlsx</span> files, maximum of 6MB.
-              </p>
-            </Dragger>
-          </Item>
+          <Form.Item label="Documents">
+            <Form.Item
+              name="files"
+              valuePropName="fileList"
+              getValueFromEvent={normFile}
+              rules={[
+                {
+                  required: true,
+                  message: "Please select at least one document.",
+                },
+              ]}
+            >
+              <Upload.Dragger {...props}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag files to this area to upload
+                </p>
+                <p className="ant-upload-hint">
+                  Only <span className="font-bold">.doc, .docx, .pdf</span>, and{" "}
+                  <span className="font-bold">.xlsx</span> files, maximum of
+                  6MB.
+                </p>
+              </Upload.Dragger>
+            </Form.Item>
+          </Form.Item>
 
-          <Item name="button">
+          <Form.Item>
             <Button
               className="mt-6"
               size="large"
@@ -218,14 +223,14 @@ export default function createSemester() {
               block
               loading={loading}
               disabled={
-                !form.getFieldValue("season") ||
-                !form.getFieldValue("startDate") ||
+                !form.isFieldsTouched() ||
+                fileList.length === 0 ||
                 fileList.some((file) => file.size / 1024 / 1024 > 6)
               }
             >
               Next
             </Button>
-          </Item>
+          </Form.Item>
         </Form>
       </div>
     </main>
