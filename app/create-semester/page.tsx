@@ -12,6 +12,7 @@ import {
 } from "antd";
 import Dragger from "antd/es/upload/Dragger";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
@@ -42,6 +43,34 @@ export default function createSemester() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fileList, setFileList] = useState<any[]>([]);
+  const { push } = useRouter();
+
+  const props: UploadProps = {
+    name: "files",
+    beforeUpload: (file) => {
+      const isValidFormat =
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        file.type === "application/msword" ||
+        file.type === "application/pdf" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+      const isSizeValid = file.size / 1024 / 1024 <= 6;
+
+      if (!isValidFormat) {
+        setError(`${file.name} is not a valid format.`);
+        return false;
+      }
+
+      if (!isSizeValid) {
+        setError(`${file.name} exceeds the maximum file size of 6MB.`);
+        return false;
+      }
+      setError(null);
+      return true;
+    },
+  };
 
   const normFile = (e: any) => {
     const files = Array.isArray(e) ? e : e?.fileList;
@@ -100,40 +129,12 @@ export default function createSemester() {
       setError("There was a problem uploading files, try again.");
     } finally {
       setLoading(false);
+      push("/home");
     }
-  };
-
-  const props: UploadProps = {
-    name: "files",
-    beforeUpload: (file) => {
-      const isValidFormat =
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-        file.type === "application/msword" ||
-        file.type === "application/pdf" ||
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
-      const isSizeValid = file.size / 1024 / 1024 <= 6;
-
-      if (!isValidFormat) {
-        setError(`${file.name} is not a valid format.`);
-        return false;
-      }
-
-      if (!isSizeValid) {
-        setError(`${file.name} exceeds the maximum file size of 6MB.`);
-        return false;
-      }
-      setError(null);
-      return true;
-    },
   };
 
   const onFinish = (values: TermProps) => {
     executeMutations(values);
-
-    // redirect to ...
   };
 
   const onClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
