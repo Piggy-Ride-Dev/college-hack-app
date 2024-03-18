@@ -106,22 +106,18 @@ export default function firstAccess() {
 
   return (
     <main>
-      <Form
-        onFinish={onSubmit}
-        form={form}
-        layout="vertical"
-        className="flex h-full w-full max-w-screen-lg flex-col justify-between self-center p-6"
-      >
-        <div className="flex flex-col gap-8 px-6">
-          <h1 className="text-2xl">Let's Get Started!</h1>
-          <p>First, tell me your Institution and Program</p>
+      <div className="flex h-full w-full max-w-screen-lg flex-col justify-between gap-6 self-center p-6">
+        <h1 className="text-2xl">Let's Get Started!</h1>
+        <p>First, tell me your Institution and Program</p>
+
+        <Form onFinish={onSubmit} form={form} layout="vertical">
           <Item
             name="college"
             label="Institution"
             rules={[
               { required: true, message: "Please select a Institution." },
             ]}
-            className="flex w-full flex-col gap-2"
+            className="flex w-full flex-col"
           >
             <Select size="large">
               {options.map((option) => (
@@ -135,7 +131,7 @@ export default function firstAccess() {
             name="program"
             label="Program"
             rules={[{ required: true, message: "Please select a Program." }]}
-            className="flex w-full flex-col gap-2"
+            className="flex w-full flex-col"
           >
             <Select size="large">
               {programOptions?.map((option: { id: string; value: string }) => (
@@ -145,9 +141,9 @@ export default function firstAccess() {
               ))}
             </Select>
           </Item>
-        </div>
-        <SubmitButton form={form}>Next</SubmitButton>
-      </Form>
+          <SubmitButton form={form}>Next</SubmitButton>
+        </Form>
+      </div>
     </main>
   );
 }
