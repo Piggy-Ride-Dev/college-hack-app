@@ -25,13 +25,16 @@ export default function RootLayout({
         theme={{
           token: {
             colorPrimary: "#FDC044",
-            colorText: "#474747",
+            colorText: "rgba(71, 71, 71, 1)",
             borderRadius: 2,
           },
           components: {
             Button: {
-              defaultColor: "#474747",
+              colorText: "rgba(71, 71, 71, 1)",
               algorithm: true,
+            },
+            Select: {
+              borderRadius: 4,
             },
           },
         }}
