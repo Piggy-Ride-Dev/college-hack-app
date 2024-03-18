@@ -1,5 +1,10 @@
 import { api } from ".";
 
-export const patchUserClient = async (data: any) => {
+export interface userData {
+  college: string;
+  program: string;
+}
+
+export const patchUserClient = async (data: userData) => {
   return await api.patch("/user", { user: { ...data } });
 };

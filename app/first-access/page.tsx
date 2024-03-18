@@ -1,5 +1,5 @@
 "use client";
-import { patchUserClient } from "@/api/userClient";
+import { patchUserClient, userData } from "@/api/userClient";
 import { useGetAllInstitutions } from "@/hooks/useInstitution";
 import { Button, Form, FormInstance, Select } from "antd";
 import { useRouter } from "next/navigation";
@@ -29,7 +29,7 @@ export default function firstAccess() {
 
   const { data: institutions } = useGetAllInstitutions();
   const patchClientMutation = useMutation(
-    async (data: any) => patchUserClient(data),
+    async (data: userData) => patchUserClient(data),
     {
       onSuccess: () => {
         push("/create-semester");
@@ -42,7 +42,7 @@ export default function firstAccess() {
     },
   );
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: userData) => {
     const values = {
       college: data["college"],
       program: data["program"],
@@ -55,15 +55,15 @@ export default function firstAccess() {
     form,
     children,
   }) => {
-    const [submittable, setSubmittable] = React.useState<boolean>(false);
+    const [isSubmittable, setIsSubmittable] = React.useState<boolean>(false);
 
     const values = Form.useWatch([], form);
 
     React.useEffect(() => {
       form
         .validateFields({ validateOnly: true })
-        .then(() => setSubmittable(true))
-        .catch(() => setSubmittable(false));
+        .then(() => setIsSubmittable(true))
+        .catch(() => setIsSubmittable(false));
     }, [form, values]);
 
     return (
@@ -72,7 +72,7 @@ export default function firstAccess() {
         type="primary"
         htmlType="submit"
         block
-        disabled={!submittable}
+        disabled={!isSubmittable}
       >
         {children}
       </Button>
