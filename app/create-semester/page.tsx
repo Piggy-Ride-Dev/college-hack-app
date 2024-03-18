@@ -10,11 +10,10 @@ import {
   Upload,
   UploadProps,
 } from "antd";
-import Dragger from "antd/es/upload/Dragger";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useState } from "react";
+import { useMutation } from "react-query";
 
 export interface TermProps {
   season: string;
@@ -42,7 +41,6 @@ export default function createSemester() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fileList, setFileList] = useState<any[]>([]);
-  const [isFormTouched, setIsFormTouched] = useState(false);
   const { push } = useRouter();
 
   const props: UploadProps = {
@@ -125,11 +123,12 @@ export default function createSemester() {
         id: semesterId,
         formData,
       });
-    } catch (error) {
-      setError("There was a problem uploading files, try again.");
-    } finally {
+
       setLoading(false);
       push("/home");
+    } catch (error) {
+      setError("There was a problem uploading files, try again.");
+      setLoading(false);
     }
   };
 
@@ -139,10 +138,6 @@ export default function createSemester() {
 
   const onClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setError("");
-  };
-
-  const handleValuesChange = () => {
-    setIsFormTouched(form.isFieldsTouched());
   };
 
   return (
@@ -158,12 +153,7 @@ export default function createSemester() {
             onClose={onClose}
           />
         )}
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onFinish}
-          onValuesChange={handleValuesChange}
-        >
+        <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item
             name="season"
             label="Semester"
@@ -186,44 +176,40 @@ export default function createSemester() {
             <DatePicker className="w-full" variant="filled" />
           </Form.Item>
 
-          <Form.Item label="Documents">
-            <Form.Item
-              name="files"
-              valuePropName="fileList"
-              getValueFromEvent={normFile}
-              rules={[
-                {
-                  required: true,
-                  message: "Please select at least one document.",
-                },
-              ]}
-            >
-              <Upload.Dragger {...props}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag files to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Only <span className="font-bold">.doc, .docx, .pdf</span>, and{" "}
-                  <span className="font-bold">.xlsx</span> files, maximum of
-                  6MB.
-                </p>
-              </Upload.Dragger>
-            </Form.Item>
+          <Form.Item
+            name="files"
+            valuePropName="fileList"
+            label="Documents"
+            getValueFromEvent={normFile}
+            rules={[
+              {
+                required: true,
+                message: "Please select at least one document.",
+              },
+            ]}
+          >
+            <Upload.Dragger {...props}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag files to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Only <span className="font-bold">.doc, .docx, .pdf</span>, and{" "}
+                <span className="font-bold">.xlsx</span> files, maximum of 6MB.
+              </p>
+            </Upload.Dragger>
           </Form.Item>
 
           <Form.Item>
             <Button
-              className="mt-6"
               size="large"
               type="primary"
               htmlType="submit"
               block
               loading={loading}
               disabled={
-                !form.isFieldsTouched() ||
                 fileList.length === 0 ||
                 fileList.some((file) => file.size / 1024 / 1024 > 6)
               }
