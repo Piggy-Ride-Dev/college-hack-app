@@ -107,7 +107,7 @@ export default function firstAccess() {
   return (
     <main>
       <div className="flex h-full w-full max-w-screen-lg flex-col justify-between gap-6 self-center p-6">
-        <h1 className="text-2xl">Let's Get Started!</h1>
+        <h1 className="text-2xl font-bold">Let's Get Started!</h1>
         <p>First, tell me your Institution and Program</p>
 
         <Form onFinish={onSubmit} form={form} layout="vertical">
