@@ -1,8 +1,14 @@
 "use client";
 import { patchUserClient } from "@/api/userClient";
 import { useGetAllInstitutions } from "@/hooks/useInstitution";
-import { Button, Form, Select } from "antd";
+import { Button, Form, FormInstance, Select } from "antd";
+import { useRouter } from "next/navigation";
+import React from "react";
 import { useMutation } from "react-query";
+
+interface SubmitButtonProps {
+  form: FormInstance;
+}
 
 interface College {
   _id: string;
@@ -19,13 +25,14 @@ interface Program {
 export default function firstAccess() {
   const [form] = Form.useForm();
   const { Item } = Form;
+  const { push } = useRouter();
 
   const { data: institutions } = useGetAllInstitutions();
   const patchClientMutation = useMutation(
     async (data: any) => patchUserClient(data),
     {
       onSuccess: () => {
-        console.log("Sucesso!");
+        push("/create-semester");
       },
       onError: (error: any) => {
         console.log(
@@ -41,9 +48,35 @@ export default function firstAccess() {
       program: data["program"],
     };
 
-    console.log("values", values);
-
     patchClientMutation.mutateAsync(values);
+  };
+
+  const SubmitButton: React.FC<React.PropsWithChildren<SubmitButtonProps>> = ({
+    form,
+    children,
+  }) => {
+    const [submittable, setSubmittable] = React.useState<boolean>(false);
+
+    const values = Form.useWatch([], form);
+
+    React.useEffect(() => {
+      form
+        .validateFields({ validateOnly: true })
+        .then(() => setSubmittable(true))
+        .catch(() => setSubmittable(false));
+    }, [form, values]);
+
+    return (
+      <Button
+        size="large"
+        type="primary"
+        htmlType="submit"
+        block
+        disabled={!submittable}
+      >
+        {children}
+      </Button>
+    );
   };
 
   function getUniqueColleges(colleges: any[]): College[] {
@@ -85,7 +118,9 @@ export default function firstAccess() {
           <Item
             name="college"
             label="Institution"
-            valuePropName="id"
+            rules={[
+              { required: true, message: "Please select a Institution." },
+            ]}
             className="flex w-full flex-col gap-2"
           >
             <Select size="large">
@@ -99,10 +134,11 @@ export default function firstAccess() {
           <Item
             name="program"
             label="Program"
+            rules={[{ required: true, message: "Please select a Program." }]}
             className="flex w-full flex-col gap-2"
           >
             <Select size="large">
-              {programOptions?.map((option: { id: any; value: any }) => (
+              {programOptions?.map((option: { id: string; value: string }) => (
                 <Select.Option key={option.id} value={option.id}>
                   {option.value}
                 </Select.Option>
@@ -110,15 +146,7 @@ export default function firstAccess() {
             </Select>
           </Item>
         </div>
-        <Button
-          className="mt-6 text-[#474747]"
-          size="large"
-          type="primary"
-          htmlType="submit"
-          block
-        >
-          Next
-        </Button>
+        <SubmitButton form={form}>Next</SubmitButton>
       </Form>
     </main>
   );
