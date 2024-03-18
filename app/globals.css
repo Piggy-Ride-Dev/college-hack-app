@@ -7,7 +7,7 @@ body {
 }
 
 main {
-  height: calc(100vh - 63px - 70px);
+  min-height: calc(100vh - 63px - 70px);
   display: flex;
   flex-direction: column;
 }
