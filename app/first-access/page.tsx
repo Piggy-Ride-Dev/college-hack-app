@@ -2,7 +2,6 @@
 import { patchUserClient } from "@/api/userClient";
 import { useGetAllInstitutions } from "@/hooks/useInstitution";
 import { Button, Form, Select } from "antd";
-import { useState } from "react";
 import { useMutation } from "react-query";
 
 interface College {
@@ -18,9 +17,6 @@ interface Program {
 }
 
 export default function firstAccess() {
-  const [selectCollege, setSelectCollege] = useState<string>("");
-  const [selectProgram, setSelectProgram] = useState<string>("");
-
   const [form] = Form.useForm();
   const { Item } = Form;
 
@@ -45,7 +41,7 @@ export default function firstAccess() {
       program: data["program"],
     };
 
-    console.log(values);
+    console.log("values", values);
 
     patchClientMutation.mutateAsync(values);
   };
@@ -89,16 +85,29 @@ export default function firstAccess() {
           <Item
             name="college"
             label="Institution"
+            valuePropName="id"
             className="flex w-full flex-col gap-2"
           >
-            <Select size="large" options={options} />
+            <Select size="large">
+              {options.map((option) => (
+                <Select.Option key={option.id} value={option.id}>
+                  {option.value}
+                </Select.Option>
+              ))}
+            </Select>
           </Item>
           <Item
             name="program"
             label="Program"
             className="flex w-full flex-col gap-2"
           >
-            <Select size="large" options={programOptions} />
+            <Select size="large">
+              {programOptions?.map((option: { id: any; value: any }) => (
+                <Select.Option key={option.id} value={option.id}>
+                  {option.value}
+                </Select.Option>
+              ))}
+            </Select>
           </Item>
         </div>
         <Button
