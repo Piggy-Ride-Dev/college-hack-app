@@ -6,12 +6,14 @@ import {
   Button,
   DatePicker,
   Form,
+  FormInstance,
   Select,
   Upload,
   UploadProps,
 } from "antd";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useMutation } from "react-query";
 
@@ -33,6 +35,10 @@ interface FileInfo {
   type: string;
   uid: string;
   xhr: {};
+}
+
+interface SubmitButtonProps {
+  form: FormInstance;
 }
 
 export default function createSemester() {
@@ -140,6 +146,35 @@ export default function createSemester() {
     setError("");
   };
 
+  const SubmitButton: React.FC<React.PropsWithChildren<SubmitButtonProps>> = ({
+    form,
+    children,
+  }) => {
+    const [isSubmittable, setIsSubmittable] = useState<boolean>(false);
+
+    const values = Form.useWatch([], form);
+
+    useEffect(() => {
+      form
+        .validateFields({ validateOnly: true })
+        .then(() => setIsSubmittable(true))
+        .catch(() => setIsSubmittable(false));
+    }, [form, values]);
+
+    return (
+      <Button
+        size="large"
+        type="primary"
+        htmlType="submit"
+        loading={loading}
+        block
+        disabled={!isSubmittable}
+      >
+        {children}
+      </Button>
+    );
+  };
+
   return (
     <main>
       <div className="flex w-full max-w-screen-lg flex-col gap-6 self-center p-6">
@@ -203,19 +238,7 @@ export default function createSemester() {
           </Form.Item>
 
           <Form.Item>
-            <Button
-              size="large"
-              type="primary"
-              htmlType="submit"
-              block
-              loading={loading}
-              disabled={
-                fileList.length === 0 ||
-                fileList.some((file) => file.size / 1024 / 1024 > 6)
-              }
-            >
-              Next
-            </Button>
+            <SubmitButton form={form}>Next</SubmitButton>
           </Form.Item>
         </Form>
       </div>
