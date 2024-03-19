@@ -13,8 +13,7 @@ import {
 } from "antd";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 
 export interface TermProps {
