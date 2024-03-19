@@ -1,5 +1,5 @@
 "use client";
-import { createSemesterData, uploadSemesterDocs } from "@/api/termClient";
+import { createSemesterData, uploadSemesterDocs } from "@/api/semesterClient";
 import { InboxOutlined } from "@ant-design/icons";
 import {
   Alert,

@@ -1,7 +1,7 @@
 import { APIResponse, api } from ".";
 
-type Semester = {
-  courses: any[];
+export type Semester = {
+  courses: string[];
   endDate: string;
   season: string;
   startDate: string;
@@ -23,4 +23,12 @@ export const uploadSemesterDocs = async ({ id, formData }: any) => {
       "Content-Type": "multipart/form-data",
     },
   });
+};
+
+export const getSemesterData = async () => {
+  return (await api.get("/semester")).data;
+};
+
+export const getSemesterDataById = async (id: string) => {
+  return (await api.get(`/semester/${id}`)).data;
 };

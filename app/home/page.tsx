@@ -1,19 +1,9 @@
-import CourseMap from "@/components/CourseMap";
-import { Button, Select } from "antd";
+import SelectCourse from "@/components/SelectCourse";
 
 export default function Home() {
   return (
     <main>
-      <div className="flex w-full max-w-screen-lg flex-col gap-6 self-center p-6">
-        <div>
-          <Select placeholder="season" />
-        </div>
-
-        {/* map das materias aqui - onClick abre a materia*/}
-        <CourseMap />
-
-        <Button>Add new courses</Button>
-      </div>
+      <SelectCourse />
     </main>
   );
 }
