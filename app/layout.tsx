@@ -33,6 +33,9 @@ export default function RootLayout({
               defaultColor: "#474747",
               algorithm: true,
             },
+            Collapse: {
+              fontWeightStrong: 600,
+            },
           },
         }}
       >
